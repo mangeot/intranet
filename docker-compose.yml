@@ -6,7 +6,6 @@ services:
       LDAP_ORGANISATION: "Association Emanciper"
       LDAP_DOMAIN: "emanciper.org"
       LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
-#      LDAP_ADMIN_PASSWORD_FILE : /run/secrets/ldap_admin_password
 #      LDAP_TLS: "false"             # deactivate TLS for the LDAP server
     volumes:
       - ./ldap/bootstrap.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/50-bootstrap.ldif
@@ -17,12 +16,9 @@ services:
       - "636:636"                   # default port for secured LDAP
     command: --copy-service
     restart: unless-stopped
- #   secrets:
- #     - ldap_admin_password
         
   phpldapadmin:
     image: osixia/phpldapadmin:latest
-    container_name: phpldapadmin
     environment:
       PHPLDAPADMIN_LDAP_HOSTS: openldap
 #      PHPLDAPADMIN_HTTPS: "false"   # deactivate HTTPS
@@ -45,18 +41,16 @@ services:
       - /var/run/postgresql
     volumes:
       - ./postgres/data:/var/lib/postgresql/data
-    # chown -R postgres:postgres pg-init-scripts
-    # chmod -R 777 pg-init-scripts
+    # chown -R postgres:postgres ./postgres
+    # chmod -R 777 ./postgres
       - ./postgres/pg-init-scripts:/docker-entrypoint-initdb.d
     environment:
      # - POSTGRES_DB=nextcloud
       - POSTGRES_USER=admindb
- #     - POSTGRES_PASSWORD_FILE=/run/secrets/admin_pg_password
       - POSTGRES_PASSWORD=${POSTGRES_ADMIN_PASSWORD}
       - POSTGRES_MULTIPLE_DATABASES=nextcloud,mattermost
       - TZ='Europe/Paris'
- #   secrets:
- #     - admin_pg_password
+
   redis:
     image: redis:alpine
     restart: always
@@ -72,20 +66,13 @@ services:
       - POSTGRES_HOST=postgres
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=admindb
-#      - POSTGRES_PASSWORD_FILE=/run/secrets/nextcloud_pg_password
       - POSTGRES_PASSWORD=${POSTGRES_USER_PASSWORD}
-#      - NEXTCLOUD_ADMIN_PASSWORD_FILE=/run/secrets/nextcloud_admin_password
-      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
-#      - NEXTCLOUD_ADMIN_USER_FILE=/run/secrets/nextcloud_admin_user
       - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
+      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
       # - NEXTCLOUD_TRUSTED_DOMAINS=192.168.1.96
     depends_on:
       - redis
       - postgres
- #   secrets:
- #     - nextcloud_admin_password
- #     - nextcloud_admin_user
- #     - admin_pg_password
 
   mattermost:
     depends_on:
@@ -122,19 +109,3 @@ services:
       - 8065:8065
       - 8443:8443/udp
       - 8443:8443/tcp
-
-#volumes:
-#  ldap-database:
-#  ldap-config:
-#  postgresqldata:
-#  nextcloud:
-
-#secrets:
-#  ldap_admin_password:
-#    file: ./ldap_admin_password.txt
-#  nextcloud_admin_password:
-#    file: ./nextcloud_admin_password.txt
-#  nextcloud_admin_user:
-#    file: ./nextcloud_admin_user.txt
-#  admin_pg_password:
-#    file: ./admin_pg_password.txt

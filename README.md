@@ -3,6 +3,7 @@
 ## compose.yml
 - déterminer son adresse IP (sur mac cliquer en haut à droite sur le wifi)
 - NEXTCLOUD_TRUSTED_DOMAINS=
+- MM_SERVICESETTINGS_SITEURL=http://localhost:8065
 
 ## LDAP
 - https://localhost:10443/
@@ -45,7 +46,7 @@ Note : j'ai dû reconfigurer après redémarrage. Il doit y avoir quelque chose 
 - Bind Password : voir .env
 - Base DN: ou=membreactif,dc=emanciper,dc=org
 
-- ajouter l'app Mattermost
+- ajouter l'app NextCloud
 J'ai pas réussi à l'ajouter : pb de connexion au marketplace
 Voir le code : https://github.com/mattermost-community/mattermost-app-nextcloud
 
