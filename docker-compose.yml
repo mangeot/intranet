@@ -1,0 +1,140 @@
+services:
+  openldap:
+    image: osixia/openldap:latest
+    environment:
+      LDAP_BASE_DN: "dc=emanciper,dc=org"
+      LDAP_ORGANISATION: "Association Emanciper"
+      LDAP_DOMAIN: "emanciper.org"
+      LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
+#      LDAP_ADMIN_PASSWORD_FILE : /run/secrets/ldap_admin_password
+#      LDAP_TLS: "false"             # deactivate TLS for the LDAP server
+    volumes:
+      - ./ldap/bootstrap.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/50-bootstrap.ldif
+      - ./ldap/ldap-database:/var/lib/ldap
+      - ./ldap/ldap-config:/etc/ldap/slapd.d 
+    ports:
+      - "389:389"                   # default port for unsecured LDAP
+      - "636:636"                   # default port for secured LDAP
+    command: --copy-service
+    restart: unless-stopped
+ #   secrets:
+ #     - ldap_admin_password
+        
+  phpldapadmin:
+    image: osixia/phpldapadmin:latest
+    container_name: phpldapadmin
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: openldap
+#      PHPLDAPADMIN_HTTPS: "false"   # deactivate HTTPS
+    ports:
+ #     - "8081:80"
+      - "10443:443"
+    restart: unless-stopped
+    depends_on:
+      - openldap
+
+  postgres:
+    image: postgres
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 100
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run/postgresql
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    # chown -R postgres:postgres pg-init-scripts
+    # chmod -R 777 pg-init-scripts
+      - ./postgres/pg-init-scripts:/docker-entrypoint-initdb.d
+    environment:
+     # - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=admindb
+ #     - POSTGRES_PASSWORD_FILE=/run/secrets/admin_pg_password
+      - POSTGRES_PASSWORD=${POSTGRES_ADMIN_PASSWORD}
+      - POSTGRES_MULTIPLE_DATABASES=nextcloud,mattermost
+      - TZ='Europe/Paris'
+ #   secrets:
+ #     - admin_pg_password
+  redis:
+    image: redis:alpine
+    restart: always
+
+  nextcloud:
+    image: nextcloud
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - ./nextcloud/html:/var/www/html
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=admindb
+#      - POSTGRES_PASSWORD_FILE=/run/secrets/nextcloud_pg_password
+      - POSTGRES_PASSWORD=${POSTGRES_USER_PASSWORD}
+#      - NEXTCLOUD_ADMIN_PASSWORD_FILE=/run/secrets/nextcloud_admin_password
+      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
+#      - NEXTCLOUD_ADMIN_USER_FILE=/run/secrets/nextcloud_admin_user
+      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
+      # - NEXTCLOUD_TRUSTED_DOMAINS=192.168.1.96
+    depends_on:
+      - redis
+      - postgres
+ #   secrets:
+ #     - nextcloud_admin_password
+ #     - nextcloud_admin_user
+ #     - admin_pg_password
+
+  mattermost:
+    depends_on:
+      - postgres
+    image: mattermost/mattermost-enterprise-edition:9.11.2
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 200
+    read_only: false
+    tmpfs:
+      - /tmp
+    volumes:
+      - ./mattermost/config:/mattermost/config:rw
+      - ./mattermost/data:/mattermost/data:rw
+      - ./mattermost/logs:/mattermost/logs:rw
+      - ./mattermost/plugins:/mattermost/plugins:rw
+      - ./mattermost/client/plugins:/mattermost/client/plugins:rw
+      - ./mattermost/bleve-indexes:/mattermost/bleve-indexes:rw
+    environment:
+      # timezone inside container
+      - TZ='Europe/Paris'
+
+      # necessary Mattermost options/variables (see env.example)
+      - MM_SQLSETTINGS_DRIVERNAME=postgres
+      - MM_SQLSETTINGS_DATASOURCE=postgres://admindb:${POSTGRES_USER_PASSWORD}@postgres:5432/mattermost?sslmode=disable&connect_timeout=10
+
+      # necessary for bleve
+      - MM_BLEVESETTINGS_INDEXDIR=/mattermost/bleve-indexes
+
+      # additional settings
+      - MM_SERVICESETTINGS_SITEURL=http://localhost:8065/
+    ports:
+      - 8065:8065
+      - 8443:8443/udp
+      - 8443:8443/tcp
+
+#volumes:
+#  ldap-database:
+#  ldap-config:
+#  postgresqldata:
+#  nextcloud:
+
+#secrets:
+#  ldap_admin_password:
+#    file: ./ldap_admin_password.txt
+#  nextcloud_admin_password:
+#    file: ./nextcloud_admin_password.txt
+#  nextcloud_admin_user:
+#    file: ./nextcloud_admin_user.txt
+#  admin_pg_password:
+#    file: ./admin_pg_password.txt

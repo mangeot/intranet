@@ -1,0 +1,34 @@
+# admin user
+dn: cn=admin,dc=emanciper,dc=org
+changetype: add
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+userPassword: AdminPa55Word!
+description: Administrateur LDAP
+
+# organisational unit for membreactif department
+dn: ou=membreactif,dc=emanciper,dc=org
+changetype: add
+objectClass: organizationalUnit
+ou: membreactif
+
+# user: Fabien Nathan
+dn: uid=fabien.nathan,ou=membreactif,dc=emanciper,dc=org
+changetype: add
+objectClass: inetOrgPerson
+cn: Fabien Nathan
+sn: Nathan
+uid: fabien.nathan
+mail: fabien.nathan@emanciper.org
+userPassword: password123
+
+# user: Mathieu Mangeot
+dn: uid=mathieu.mangeot,ou=membreactif,dc=emanciper,dc=org
+changetype: add
+objectClass: inetOrgPerson
+cn: Mathieu Mangeot
+sn: Mangeot
+uid: mathieu.mangeot
+mail: mathieu.mangeot@emanciper.org
+userPassword: password456

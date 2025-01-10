@@ -1,0 +1,11 @@
+.DS_Store
+.env
+logs
+ldap/ldap-config
+ldap/ldap-database
+mattermost/client
+mattermost/config
+mattermost/data
+mattermost/plugins
+nextcloud/html
+postgres/data
