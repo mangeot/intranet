@@ -1,5 +1,8 @@
 # README
 
+## .
+- chmod -R 777 mattermost
+
 ## compose.yml
 - déterminer son adresse IP (sur mac cliquer en haut à droite sur le wifi)
 - NEXTCLOUD_TRUSTED_DOMAINS=
