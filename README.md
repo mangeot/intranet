@@ -60,7 +60,5 @@ Voir le code : https://github.com/mattermost-community/mattermost-app-nextcloud
 
 
 ## TODO
-- faire un pipeline Github
 - régler l'intégration MM/NC
-- ajouter les volumes docker directement sur le disque
 - penser à une sauvegarde automatique avec cron et rsync ou scp...
