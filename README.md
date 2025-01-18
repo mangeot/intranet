@@ -3,30 +3,37 @@
 ## .
 - chmod -R 777 mattermost
 
-## compose.yml
-- déterminer son adresse IP (sur mac cliquer en haut à droite sur le wifi)
-- NEXTCLOUD_TRUSTED_DOMAINS=
-- MM_SERVICESETTINGS_SITEURL=http://localhost:8065
-- server_name=
+## .env
+SERVER_NAME=intranet.myorganization.org
+LDAP_BASE_DN="dc=myorganization,dc=org"
+LDAP_ORGANISATION="My Organization"
+LDAP_DOMAIN=myorganization.org
+LDAP_ADMIN_PASSWORD=Adm1nPa55W0rd!
+POSTGRES_USER_NAME=admin
+POSTGRES_USER_PASSWORD=UserPa55W0rd!
+NEXTCLOUD_ADMIN_USER=admin
+NEXTCLOUD_ADMIN_PASSWORD=Adm1nPa55W0rd!
+COLLABORA_USERNAME=collabora
+COLLABORA_PASSWORD=Adm1nPa55W0rd!
 
 ## LDAP
 - https://localhost:10443/
-- login DN : cn=admin,dc=emanciper,dc=org
-- password : voir le .env
+- login DN : cn=admin,${LDAP_BASE_DN}
+- password : ${LDAP_ADMIN_PASSWORD}
 
 ## Nextcloud
 - https://localhost:8080/
 
 ### Pour initialiser Nextcloud :
-- s'identifier en tant qu'administrateur (voir .env)
+- s'identifier en tant qu'administrateur (${NEXTCLOUD_ADMIN_USER} et ${NEXTCLOUD_ADMIN_PSSWORD})
 - cliquer en haut à droite puis sur Apps 
 - activer l'app LDAP user and group backend
 - cliquer en haut à droite puis sur Administration settings
 - cliquer dans la colonne de gauche sur LDAP/AD integration
 - déterminer son adresse IP (sur mac cliquer en haut à droite sur le wifi)
-- User DN : cn=admin,dc=emanciper,dc=org
-- Password : voir .env
-- One base DN per line : ou=membreactif,dc=emanciper,dc=org
+- User DN : cn=admin,${LDAP_BASE_DN}
+- Password : ${LDAP_ADMIN_PASSWORD}
+- One base DN per line : ou=membreactif,${LDAP_BASE_DN}
 
 Pas possible de configurer sur jibiki
 
@@ -53,9 +60,9 @@ https://sdk.collaboraonline.com/docs/installation/Proxy_settings.html#reverse-pr
 ### Pour initialiser Mattermost :
 - Créer un compte admin
 - Dans le menu de gauche, System console, Authentication, AD/LDAP, start trial
-- Bind Username: cn=admin,dc=emanciper,dc=org
-- Bind Password : voir .env
-- Base DN: ou=membreactif,dc=emanciper,dc=org
+- Bind Username: cn=admin,${LDAP_BASE_DN}
+- Bind Password : ${LDAP_ADMIN_PASSWORD}
+- Base DN: ou=membreactif,${LDAP_BASE_DN}
 
 - ajouter l'app NextCloud
 J'ai pas réussi à l'ajouter : pb de connexion au marketplace
@@ -63,11 +70,11 @@ Voir le code : https://github.com/mattermost-community/mattermost-app-nextcloud
 
 ### Pour configurer Mattermost ensuite :
 - récupérer son adresse IP (via le wifi)
-- modifier mattermost/configconfig.json
+- modifier mattermost/config/config.json
     "LdapServer": "x.x.x.x",
 
 ## Startup script
-LAncer create-docker-compose-service.sh
+Lancer create-docker-compose-service.sh
 
 ## TODO
 - régler l'intégration MM/NC
