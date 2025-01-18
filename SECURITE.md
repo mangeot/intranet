@@ -1,0 +1,50 @@
+# Sécuriser un serveur
+
+## Bloquer les ports non nécessaires
+- Vérifier les ports ouverts https://fr.linux-console.net/?p=12058
+    22 : ssh
+    25 : mail
+    80 : http
+    443 : https
+    631 : cups (service d'impression)
+    3306 : mysql (base de données)
+    5353 : avahi (multicast DNS)
+    5432 : postgresql (base de données)
+
+- Avec un NAT, n'ajouter que les règles nécessaires, pas de DMZ
+- sur debian, désactiver avahi (mDNS), port 5353 et CUPS (service d'impression), port 631
+```
+ sudo systemctl disable --now avahi-daemon
+ sudo systemctl disable --now cups 
+ ```
+ - voir aussi le port 25 avec exim4, mais on a besoin d'un minimum de mail...
+
+## Changer le port ssh par défaut
+- Éditer /etc/ssh/sshd_config et changer Port=22 en Port=xxxx
+
+## Sécuriser Apache
+- installer certbot pour https
+- supprimer les instructions cgi dans les configs
+```
+# ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+#  <Directory "/usr/lib/cgi-bin">
+```
+
+- supprimer la signature dans /etc/apache2/apache2.conf 
+```
+ServerSignature Off
+ServerTokens Prod
+```
+
+## installer Fail2ban
+- après l'install, copier les configurations du dossier fail2ban
+```
+sudo apt install fail2ban
+sudo systemctl start fail2ban
+sudo systemctl enable fail2ban
+sudo systemctl status fail2ban
+sudo fail2ban-client status
+sudo fail2ban-client status sshd
+sudo fail2ban-client status apache-auth
+sudo fail2ban-client banned
+```
