@@ -47,4 +47,5 @@ sudo fail2ban-client status
 sudo fail2ban-client status sshd
 sudo fail2ban-client status apache-auth
 sudo fail2ban-client banned
+sudo fail2ban-client set sshd unbanip <ip-address>
 ```
