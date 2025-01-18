@@ -7,6 +7,7 @@
 - déterminer son adresse IP (sur mac cliquer en haut à droite sur le wifi)
 - NEXTCLOUD_TRUSTED_DOMAINS=
 - MM_SERVICESETTINGS_SITEURL=http://localhost:8065
+- server_name=
 
 ## LDAP
 - https://localhost:10443/
@@ -40,6 +41,8 @@ Note : j'ai dû reconfigurer après redémarrage. Il doit y avoir quelque chose 
 - cliquer en haut à droite puis sur Administration settings
 - cliquer dans la colonne de gauche sur LDAP/AD integration
 
+### Collabora
+https://techoverflow.net/2021/08/19/how-to-run-collabora-office-for-nextcloud-using-docker-compose/
 
 ## Mattermost
 ### Pour initialiser Mattermost :
@@ -58,6 +61,8 @@ Voir le code : https://github.com/mattermost-community/mattermost-app-nextcloud
 - modifier mattermost/configconfig.json
     "LdapServer": "x.x.x.x",
 
+## Startup script
+LAncer create-docker-compose-service.sh
 
 ## TODO
 - régler l'intégration MM/NC

@@ -55,6 +55,19 @@ services:
     image: redis:alpine
     restart: always
 
+ code:
+    image: collabora/code:latest
+    restart: always
+    environment:
+      - password=${COLLABORA_PASSWORD}
+      - username=${COLLABORA_USERNAME}
+#      - aliasgroup1=https://collabora.mydomain.com:443
+#      - aliasgroup2=https://nextcloud.myseconddomain.com:443
+      - server_name=collabora.mydomain.com
+      - extra_params=--o:ssl.enable=true
+    ports:
+      - 9980:9980
+ 
   nextcloud:
     image: nextcloud
     restart: always
