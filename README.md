@@ -35,6 +35,10 @@ J'ai pas réussi à la configurer, problème d'authentification...
 
 Note : j'ai dû reconfigurer après redémarrage. Il doit y avoir quelque chose qui ne se sauvegarde pas. À tester...
 
+- ajouter l'app Polls
+- ajouter l'app collabora office
+- ajouter l'app d'agenda
+
 ### Pour configurer NextCloud ensuite :
 - récupérer son adresse IP (via le wifi)
 - se connecter avec le compte admin
@@ -43,6 +47,7 @@ Note : j'ai dû reconfigurer après redémarrage. Il doit y avoir quelque chose 
 
 ### Collabora
 https://techoverflow.net/2021/08/19/how-to-run-collabora-office-for-nextcloud-using-docker-compose/
+https://sdk.collaboraonline.com/docs/installation/Proxy_settings.html#reverse-proxy-with-apache-2-webserver
 
 ## Mattermost
 ### Pour initialiser Mattermost :
