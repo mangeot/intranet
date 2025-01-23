@@ -15,9 +15,13 @@ apt install tor deb.torproject.org-keyring
 
 ```
 vi /etc/tor/torrc
+
+HiddenServiceDir /var/lib/tor/mangeot_hidden_service/
+HiddenServicePort 80 127.0.0.1:80
+
 sudo systemctl restart tor
 
-Installer et lancer tor browser avec bridge depuis la France
+Installer et lancer tor browser ou Brave avec bridge depuis la France
 
 ### Configurer un vhost avec apache
 /etc/apache/sites-available/onion-mangeot.conf
