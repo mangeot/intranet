@@ -1,7 +1,7 @@
 # README
 
 ## .
-- chmod -R 777 mattermost
+- mkdir mattermost;chmod -R 777 mattermost
 
 ## .env
 SERVER_NAME=intranet.myorganization.org
@@ -15,6 +15,13 @@ NEXTCLOUD_ADMIN_USER=admin
 NEXTCLOUD_ADMIN_PASSWORD=Adm1nPa55W0rd!
 COLLABORA_USERNAME=collabora
 COLLABORA_PASSWORD=Adm1nPa55W0rd!
+
+## lancer docker
+https://docs.docker.com/engine/install/debian/
+```
+
+ docker-compose up
+``` 
 
 ## LDAP
 - https://localhost:10443/

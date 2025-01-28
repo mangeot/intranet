@@ -88,7 +88,7 @@ services:
       - postgres
 
   mattermost:
-    image: mattermost/mattermost-enterprise-edition:9.11.2
+    image: mattermost/mattermost-enterprise-edition
     restart: always
     security_opt:
       - no-new-privileges:true

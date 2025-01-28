@@ -42,7 +42,7 @@ ServerTokens Prod
 
 ## installer Fail2ban
 - après l'install, copier les configurations du sous-dossier fail2ban
-cp -R ./fail2ban/jail.d/* /etc/fail2ban/jaild.d/. 
+sudo cp -R ./fail2ban/jail.d/* /etc/fail2ban/jail.d/. 
 ```
 sudo apt install fail2ban
 sudo systemctl start fail2ban
