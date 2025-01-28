@@ -1,7 +1,12 @@
 # README
 
 ## .
-- mkdir mattermost;chmod -R 777 mattermost
+```
+ vi ./ldap/bootstrap.ldif
+ chmod -R 777 ./postgres
+ mkdir -p ./mattermost/{config,data,logs,plugins,client/plugins,bleve-indexes}; chmod -R 777 ./mattermost/
+ cp ./env ./.env
+```
 
 ## .env
 SERVER_NAME=intranet.myorganization.org
@@ -19,7 +24,6 @@ COLLABORA_PASSWORD=Adm1nPa55W0rd!
 ## lancer docker
 https://docs.docker.com/engine/install/debian/
 ```
-
  docker-compose up
 ``` 
 
@@ -32,12 +36,14 @@ https://docs.docker.com/engine/install/debian/
 - https://localhost:8080/
 
 ### Pour initialiser Nextcloud :
-- s'identifier en tant qu'administrateur (${NEXTCLOUD_ADMIN_USER} et ${NEXTCLOUD_ADMIN_PSSWORD})
+- s'identifier en tant qu'administrateur (${NEXTCLOUD_ADMIN_USER} et ${NEXTCLOUD_ADMIN_PASSWORD})
 - cliquer en haut à droite puis sur Apps 
+- cliquer en haut à gauche sur Your apps
 - activer l'app LDAP user and group backend
 - cliquer en haut à droite puis sur Administration settings
 - cliquer dans la colonne de gauche sur LDAP/AD integration
 - déterminer son adresse IP (sur mac cliquer en haut à droite sur le wifi)
+    192.168.1.20
 - User DN : cn=admin,${LDAP_BASE_DN}
 - Password : ${LDAP_ADMIN_PASSWORD}
 - One base DN per line : ou=membreactif,${LDAP_BASE_DN}
@@ -50,8 +56,10 @@ J'ai pas réussi à la configurer, problème d'authentification...
 Note : j'ai dû reconfigurer après redémarrage. Il doit y avoir quelque chose qui ne se sauvegarde pas. À tester...
 
 - ajouter l'app Polls
-- ajouter l'app collabora office
-- ajouter l'app d'agenda
+- ajouter l'app Calendrier
+- ajouter l'app Nextcloud office puis ouvrir
+    https://{$SERVER_NAME}/settings/admin/richdocuments et ajouter 
+https://${COLLABORA_USERNAME}:${COLLABORA_USERNAME}@192.168.1.20:9980
 
 ### Pour configurer NextCloud ensuite :
 - récupérer son adresse IP (via le wifi)
@@ -63,7 +71,11 @@ Note : j'ai dû reconfigurer après redémarrage. Il doit y avoir quelque chose 
 https://techoverflow.net/2021/08/19/how-to-run-collabora-office-for-nextcloud-using-docker-compose/
 https://sdk.collaboraonline.com/docs/installation/Proxy_settings.html#reverse-proxy-with-apache-2-webserver
 
+Voir plsu tard pour sécurité : allow list for WOPI requests...
+
 ## Mattermost
+http://localhost:8065
+
 ### Pour initialiser Mattermost :
 - Créer un compte admin
 - Dans le menu de gauche, System console, Authentication, AD/LDAP, start trial
