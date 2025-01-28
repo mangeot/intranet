@@ -2,9 +2,13 @@
 
 ## Bloquer les ports non nécessaires
 - Vérifier les ports ouverts https://fr.linux-console.net/?p=12058
+```
+ sudo apt install net-tools
+ netstat -utln
     22 : ssh
     25 : mail
     80 : http
+    123 : ntp (réglage de l'heure)
     443 : https
     631 : cups (service d'impression)
     3306 : mysql (base de données)
@@ -37,7 +41,8 @@ ServerTokens Prod
 ```
 
 ## installer Fail2ban
-- après l'install, copier les configurations du dossier fail2ban
+- après l'install, copier les configurations du sous-dossier fail2ban
+cp -R ./fail2ban/jail.d/* /etc/fail2ban/jaild.d/. 
 ```
 sudo apt install fail2ban
 sudo systemctl start fail2ban
