@@ -88,7 +88,9 @@ J'ai pas réussi à l'ajouter : pb de connexion au marketplace
 Voir le code : https://github.com/mattermost-community/mattermost-app-nextcloud
 
 ### Pour configurer Mattermost ensuite :
-- récupérer son adresse IP (via le wifi)
+- ouvrir le port 8443 en UDP depuis l'extérieur 
+    - voir le NAT
+- récupérer son adresse IP publique (via le wifi)
 - modifier mattermost/config/config.json
     "LdapServer": "x.x.x.x",
 
@@ -96,5 +98,5 @@ Voir le code : https://github.com/mattermost-community/mattermost-app-nextcloud
 Lancer create-docker-compose-service.sh
 
 ## TODO
-- régler l'intégration MM/NC
+- régler la connexion à collabora/CODE
 - penser à une sauvegarde automatique avec cron et rsync ou scp...
