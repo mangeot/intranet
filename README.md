@@ -71,7 +71,7 @@ https://${COLLABORA_USERNAME}:${COLLABORA_USERNAME}@192.168.1.20:9980
 https://techoverflow.net/2021/08/19/how-to-run-collabora-office-for-nextcloud-using-docker-compose/
 https://sdk.collaboraonline.com/docs/installation/Proxy_settings.html#reverse-proxy-with-apache-2-webserver
 
-Voir plsu tard pour sécurité : allow list for WOPI requests...
+Voir plus tard pour sécurité : allow list for WOPI requests...
 
 ## Mattermost
 http://localhost:8065
@@ -83,16 +83,20 @@ http://localhost:8065
 - Bind Password : ${LDAP_ADMIN_PASSWORD}
 - Base DN: ou=membreactif,${LDAP_BASE_DN}
 
-- ajouter l'app NextCloud
+- ajouter l'app NextCloud : est-ce vraiment possible ?
 J'ai pas réussi à l'ajouter : pb de connexion au marketplace
 Voir le code : https://github.com/mattermost-community/mattermost-app-nextcloud
 
 ### Pour configurer Mattermost ensuite :
-- ouvrir le port 8443 en UDP depuis l'extérieur 
+- Pour le plugin Calls, ouvrir le port 8443 en UDP depuis l'extérieur 
     - voir le NAT
 - récupérer son adresse IP publique (via le wifi)
 - modifier mattermost/config/config.json
     "LdapServer": "x.x.x.x",
+    ...
+    "tcpserveraddress": "x.x.x.x",
+    ...
+    "udpserveraddress": "x.x.x.x",
 
 ## Startup script
 Lancer create-docker-compose-service.sh

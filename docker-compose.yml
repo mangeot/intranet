@@ -16,6 +16,7 @@ services:
       - "636:636"                   # default port for secured LDAP
     command: --copy-service
     restart: unless-stopped
+# test : LDAPTLS_REQCERT=never ldapsearch -x -D "cn=admin,dc=emanciper,dc=org" -W -b "ou=membreactif,dc=emanciper,dc=org" -ZZ
         
   phpldapadmin:
     image: osixia/phpldapadmin:latest
