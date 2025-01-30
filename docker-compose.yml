@@ -6,11 +6,16 @@ services:
       LDAP_ORGANISATION: ${LDAP_ORGANISATION}
       LDAP_DOMAIN: ${LDAP_DOMAIN}
       LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
+      LDAP_TLS_VERIFY_CLIENT: never
+      LDAP_TLS_KEY_FILENAME: privkey.pem
+      LDAP_TLS_CRT_FILENAME: cert.pem 
+      LDAP_TLS_CA_CRT_FILENAME: fullchain.pem
 #      LDAP_TLS: "false"             # deactivate TLS for the LDAP server
     volumes:
       - ./ldap/bootstrap.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/50-bootstrap.ldif
       - ./ldap/ldap-database:/var/lib/ldap
       - ./ldap/ldap-config:/etc/ldap/slapd.d 
+      - /etc/letsencrypt/live/ldap.emanciper.org:/container/service/slapd/assets/certs
     ports:
       - "389:389"                   # default port for unsecured LDAP
       - "636:636"                   # default port for secured LDAP
@@ -20,11 +25,18 @@ services:
         
   phpldapadmin:
     image: osixia/phpldapadmin:latest
+    hostname: ldap.emanciper.org
     environment:
       PHPLDAPADMIN_LDAP_HOSTS: openldap
 #      PHPLDAPADMIN_HTTPS: "false"   # deactivate HTTPS
+      PHPLDAPADMIN_HTTPS_KEY_FILENAME: privkey.pem
+      PHPLDAPADMIN_HTTPS_CRT_FILENAME: cert.pem
+      PHPLDAPADMIN_HTTPS_CA_CRT_FILENAME: fullchain.pem
+      PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT: never
+    volumes:
+      - /etc/letsencrypt/live/ldap.emanciper.org:/container/service/slapd/assets/certs
     ports:
- #     - "8081:80"
+      - "8081:80"
       - "10443:443"
     restart: unless-stopped
     depends_on:
