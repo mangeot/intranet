@@ -131,6 +131,13 @@ services:
       - MM_SERVICESETTINGS_SITEURL=http://${SERVER_NAME}:8065/
     ports:
       - 8065:8065
+# test open port: 
+# on host launch >nc -u -l -p 8443
+# on client launch >echo "Test" | nc -u <IP-ADRESS> 8443
+# +  "icehostoverride": "<MY_HOST_IP_WITHOUT_PORT>",
+# sudo lsof -n -i :8443
+# sudo ps ax | grep calls
+# mmctl --local config get PluginSettings.Plugins.com.mattermost.calls
       - 8443:8443/udp
       - 8443:8443/tcp
     depends_on:
