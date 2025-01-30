@@ -1,4 +1,5 @@
 # Sécuriser un serveur
+- sudo a2enmod proxy proxy_http
 
 ## Bloquer les ports non nécessaires
 - Vérifier les ports ouverts https://fr.linux-console.net/?p=12058
