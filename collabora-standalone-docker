@@ -1,0 +1,1 @@
+docker run -t -d -p 127.0.0.1:9980:9980 -e 'aliasgroup1=https://intranet.emanciper.org:443'    --restart always     --cap-add MKNOD     collabora/code

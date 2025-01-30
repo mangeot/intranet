@@ -9,3 +9,4 @@ mattermost/data
 mattermost/plugins
 nextcloud/html
 postgres/data
+bootstrap.ldif
