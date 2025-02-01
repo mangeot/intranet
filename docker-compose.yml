@@ -74,9 +74,9 @@ services:
     environment:
       - password=${COLLABORA_PASSWORD}
       - username=${COLLABORA_USERNAME}
-#      - aliasgroup1=https://intranet.emanciper.org:443
+#      - aliasgroup1=https://nextcloud.myfirstdomain.org:443
 #      - aliasgroup2=https://nextcloud.myseconddomain.com:443
-      - server_name=${SERVER_NAME}
+      - server_name=${NEXTCLOUD_SERVER_NAME}
       - extra_params=--o:ssl.enable=true
     ports:
       - 9980:9980
@@ -95,7 +95,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_USER_PASSWORD}
       - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
       - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
-      - NEXTCLOUD_TRUSTED_DOMAINS=${SERVER_NAME}
+      - NEXTCLOUD_TRUSTED_DOMAINS=${NEXTCLOUD_SERVER_NAME}
     depends_on:
       - redis
       - postgres
@@ -128,7 +128,7 @@ services:
       - MM_BLEVESETTINGS_INDEXDIR=/mattermost/bleve-indexes
 
       # additional settings
-      - MM_SERVICESETTINGS_SITEURL=http://${SERVER_NAME}:8065/
+      - MM_SERVICESETTINGS_SITEURL=${MATTERMOST_SITE_URL}
     ports:
       - 8065:8065
 # test open port: 
