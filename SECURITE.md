@@ -41,6 +41,24 @@ ServerSignature Off
 ServerTokens Prod
 ```
 
+- ajouter des hôtes catch-all pour les requêtes par adresse IP
+Ce sont les pirates !
+```
+<VirtualHost *:80>
+	Redirect permanent / https://www.google.com 
+</VirtualHost>
+
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+	ServerName catch-all
+	SSLEngine on
+	SSLCertificateFile      /etc/ssl/certs/ssl-cert-snakeoil.pem
+	SSLCertificateKeyFile   /etc/ssl/private/ssl-cert-snakeoil.key
+
+	Redirect permanent / https://www.google.com
+</VirtualHost>
+```
+
 ## installer Fail2ban
 - après l'install, copier les configurations du sous-dossier fail2ban
 sudo cp -R ./fail2ban/jail.d/* /etc/fail2ban/jail.d/. 
