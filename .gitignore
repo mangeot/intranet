@@ -12,3 +12,4 @@ postgres/data
 postgres/backups
 bootstrap.ldif
 collabora
+sauvegarde.logs
