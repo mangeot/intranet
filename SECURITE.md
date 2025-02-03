@@ -48,7 +48,6 @@ Ce sont les pirates !
 	Redirect permanent / https://www.google.com 
 </VirtualHost>
 
-<IfModule mod_ssl.c>
 <VirtualHost *:443>
 	ServerName catch-all
 	SSLEngine on
