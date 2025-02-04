@@ -77,15 +77,10 @@ services:
 #      - aliasgroup1=https://.*:443
       - aliasgroup1=https://${NEXTCLOUD_SERVER_NAME}:443
 #      - aliasgroup2=https://nextcloud.myseconddomain.com:443
-      - server_name=${COLLABORA_SERVER_NAME}
+      - server_name=${NEXTCLOUD_SERVER_NAME}
       - extra_params=--o:ssl.enable=true
     ports:
       - 9980:9980
-# troubleshooting
-# https://help.nextcloud.com/t/collabora-integration-guide/151879
-# from the client:
-# curl https://intranet.emanciper.org/status.php 
-# curl https://office.emanciper.org/hosting/discovery
  
   nextcloud:
     image: nextcloud
