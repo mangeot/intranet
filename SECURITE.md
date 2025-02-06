@@ -72,3 +72,18 @@ sudo fail2ban-client status apache-auth
 sudo fail2ban-client banned
 sudo fail2ban-client set sshd unbanip <ip-address>
 ```
+
+## Installer un serveur DNS
+- installer dig avec sudo apt install dnsutils
+- installer Unbound sudo apt install unbound :
+https://www.howtoforge.com/how-to-set-up-local-dns-with-unbound-on-debian/
+voir unbound.conf
+- installer systemd-resolved:
+https://serverfault.com/questions/1145358/how-can-i-configure-my-dns-settings-on-debian-12
+sudo apt install systemd-resolved
+sudo vi /etc/systemd/resolved.conf
+```
+[Resolve]
+DNS=192.168.1.25
+FallbackDNS=8.8.8.8
+```
