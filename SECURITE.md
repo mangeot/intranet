@@ -99,6 +99,6 @@ sudo vi /etc/systemd/resolved.conf
 
 ```text
 [Resolve]
-DNS=192.168.1.25
-FallbackDNS=8.8.8.8
+DNS=192.168.1.25 2a02:842b:6c02:5501:967a:c85e:a776:abcd
+FallbackDNS=8.8.8.8 8.8.4.4 2001:4860:4860::8888 2001:4860:4860::8844
 ```
