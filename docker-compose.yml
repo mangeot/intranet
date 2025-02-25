@@ -77,7 +77,7 @@ services:
 #      - aliasgroup1=https://.*:443
       - aliasgroup1=https://${NEXTCLOUD_SERVER_NAME}:443
 #      - aliasgroup2=https://nextcloud.myseconddomain.com:443
-      - server_name=${NEXTCLOUD_SERVER_NAME}
+      - server_name=${COLLABORA_SERVER_NAME}
       - extra_params=--o:ssl.enable=true
     ports:
       - 9980:9980
