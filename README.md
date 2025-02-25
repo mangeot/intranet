@@ -23,7 +23,7 @@ NEXTCLOUD_ADMIN_USER=admin
 NEXTCLOUD_ADMIN_PASSWORD=Adm1nPa55W0rd!
 COLLABORA_USERNAME=collabora
 COLLABORA_PASSWORD=Adm1nPa55W0rd!
-````
+```
 
 ## lancer docker
 
@@ -59,16 +59,11 @@ COLLABORA_PASSWORD=Adm1nPa55W0rd!
 
 Pas possible de configurer sur jibiki
 
-- ajouter l'app Integration -> Mattermost integration
-J'ai pas réussi à la configurer, problème d'authentification...
-
-Note : j'ai dû reconfigurer après redémarrage. Il doit y avoir quelque chose qui ne se sauvegarde pas. À tester...
-
 - ajouter l'app Polls
 - ajouter l'app Calendrier
 - ajouter l'app Nextcloud office puis ouvrir
     https://{$SERVER_NAME}/settings/admin/richdocuments et ajouter
-https://${COLLABORA_USERNAME}:${COLLABORA_USERNAME}@192.168.1.20:9980
+https://${COLLABORA_USERNAME}:${COLLABORA_PASSWORD}@192.168.1.25:9980
 
 ### Pour configurer NextCloud ensuite
 
@@ -136,7 +131,7 @@ Kurento binds somehow always to the external IP instead of the local one or `0.0
 $ ip addr add 77.129.46.124/30 dev enp2s0
 ```
 ### Mattermost bbb plugin
-https://github.com/blindsidenetworks/mattermost-plugin-bigbluebutton/blob/master/README.md#installation-and-setup
+<https://github.com/blindsidenetworks/mattermost-plugin-bigbluebutton/blob/master/README.md#installation-and-setup>
 Copier le SHARED_SECRET du .env dans la config
 
 ### NextCloud bbb plugin
