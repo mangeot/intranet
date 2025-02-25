@@ -69,6 +69,6 @@ $CONFIG = array (
   'mail_smtpport' => '465',
   'mail_smtpauth' => 1,
   'mail_smtpname' => 'webmaster@emanciper.org',
-  'mail_smtppassword' => 'Michan165-0031',
+  'mail_smtppassword' => 'xxxx',
   'maintenance' => false,
 );
