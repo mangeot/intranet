@@ -96,10 +96,6 @@ Voir plus tard pour sécurité : allow list for WOPI requests...
 - Bind Password : ${LDAP_ADMIN_PASSWORD}
 - Base DN: ou=membreactif,${LDAP_BASE_DN}
 
-- ajouter l'app NextCloud : est-ce vraiment possible ?
-J'ai pas réussi à l'ajouter : pb de connexion au marketplace
-Voir le code : <https://github.com/mattermost-community/mattermost-app-nextcloud>
-
 ### Pour configurer Mattermost ensuite
 
 - Pour le plugin Calls, ouvrir le port 8443 en UDP depuis l'extérieur
@@ -113,13 +109,45 @@ Voir le code : <https://github.com/mattermost-community/mattermost-app-nextcloud
     "tcpserveraddress": "x.x.x.x",
     ...
     "udpserveraddress": "x.x.x.x",
-````
+```
+
+## bbb
+```bash
+$ git clone https://github.com/bigbluebutton/docker.$ git bbb-docker
+$ cd bbb-docker
+$ git checkout main 
+$ ./scripts/setup
+$ vi .env
+$ ./scripts/generate-compose
+$ docker compose up -d --no-build
+```
+
+### Compte admin
+If you use greenlight, you can create an admin account with:
+```bash
+$ docker compose exec greenlight bundle exec rake admin:create
+```
+
+### NAT
+Kurento binds somehow always to the external IP instead of the local one or `0.0.0.0`. For that reason you need to add your external IP to your interface.
+
+#### Temporary  way (until next reboot)
+```
+$ ip addr add 77.129.46.124/30 dev enp2s0
+```
+### Mattermost bbb plugin
+https://github.com/blindsidenetworks/mattermost-plugin-bigbluebutton/blob/master/README.md#installation-and-setup
+Copier le SHARED_SECRET du .env dans la config
+
+### NextCloud bbb plugin
+Copier le SHARED_SECRET du .env dans la config
 
 ## Startup script
-
+Pas besoin car docker redémarre les containers !
 Lancer create-docker-compose-service.sh
 
-## TODO
+## Sauvegarde automatique
 
-- régler la connexion à collabora/CODE
-- penser à une sauvegarde automatique avec cron et rsync ou scp...
+## TODO
+- régler le pb de collabora sur le même serveur
+- on ne peut pas se connecter directement à bbb
