@@ -77,7 +77,10 @@ https://${COLLABORA_USERNAME}:${COLLABORA_PASSWORD}@192.168.1.25:9980
 <https://techoverflow.net/2021/08/19/how-to-run-collabora-office-for-nextcloud-using-docker-compose/>
 <https://sdk.collaboraonline.com/docs/installation/Proxy_settings.html#reverse-proxy-with-apache-2-webserver>
 
-Voir plus tard pour sécurité : allow list for WOPI requests...
+Faire tourner le serveur en ligne de commande
+car cela ne marche pas avec docker compose !!!
+
+Voir pb-nextcloud-collabora.md
 
 ## Mattermost
 

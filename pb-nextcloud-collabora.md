@@ -1,19 +1,20 @@
-Dear all,
+# réglage de problèmes avec Collabora
 
-I already spent one week to try to solve this problem but after reviewing the logs, I have no clues.
-I definitely need your help!
-
+## Contexte
+À lire : 
+<https://help.nextcloud.com/t/collabora-integration-guide/151879>
+<https://sdk.collaboraonline.com/docs/installation/Collabora_Online_Troubleshooting_Guide.html#checking-network-connectivity-between-collabora-online-and-the-wopi-host>
 I have nexcloud and collabora servers installed via docker.
 My problem is that when I connect to nextcloud and collabora with my local network IP addresses (192.168.1.x), I can edit .doc files with no problems, but when I connect via public IP addresses and apache proxy, it fails with this error message: Result: Document loading failed Failed to load Nextcloud Office - please try again later
 Even if I can see the connection on Collabora admin interface.
 
-## Here is my configuration:
+## Configuration:
 - Debian GNU/Linux 12 (bookworm)
 - Apache/2.4.62
 - Nextcloud latest docker image: 30.0.5
 - Collabora/code latest docker image: 24.04.12.2.1
 
-## Here is my first scenario that works:
+## First scenario that works:
 1.
 Runs on local network with these two docker containers:
 docker run -d -p 8080:80 nextcloud
@@ -35,7 +36,7 @@ But when I try with public IPs, it fails:
 Runs with public servers:
 Reverse proxy settings in Apache2 config (SSL termination): https://sdk.collaboraonline.com/docs/installation/Proxy_settings.html
 Launched these two containers:
-```
+```bash
 docker run -d -p 8080:80 -v nextcloud:/var/www/html nextcloud
 docker run -t -d -p 9980:9980 -e "extra_params=--o:ssl.enable=false --o:ssl.termination=true" -e "username=admin" -e "password=secret" -e "server_name=office.mydomain.org" -e "aliasgroup1=https://.*:443" collabora/code
 ```
@@ -43,7 +44,7 @@ docker run -t -d -p 9980:9980 -e "extra_params=--o:ssl.enable=false --o:ssl.term
 Runs with public servers:
 Configured collabora server with an apache proxy (SSL): https://sdk.collaboraonline.com/docs/installation/Proxy_settings.html
 Launched these two containers:
-```
+```bash
 docker run -d -p 8080:80 -v nextcloud:/var/www/html nextcloud
 docker run -t -d -p 9980:9980 -e "extra_params=--o:ssl.enable=true" -e "username=admin" -e "password=secret" -e "server_name=office.mydomain.org" -e "aliasgroup1=https://.*:443" collabora/code
 ```
@@ -61,17 +62,47 @@ On https://office.mydomain.org/browser/dist/admin/admin.html I can see the conne
 > Result: Document loading failed
 > Failed to load Nextcloud Office - please try again later
 
+### Troubleshooting
+1. From the client, verify access to the Nextcloud UI 
+```bash
+$ curl https://intranet.emanciper.org/status.php -vvv  
+```
+2. From the client, verify access to Collabora 
+```bash
+$ curl https://office.emanciper.org/hosting/discovery -vvv  
+```
+3. from Nextcloud, verify access to Collabora
+```bash
+$ docker exec -it intranet-nextcloud-1 curl https://office.emanciper.org/hosting/discovery -vvv   
+```
+4. from Collabora, verify access to the Nextcloud UI
+```bash
+docker exec -it intranet-code-1 curl https://intranet.emanciper.org/status.php -vvv  
+```
+5. Check Collabora admin interface
+<https://office.emanciper.org/browser/dist/admin/admin.html> 
+Login: ${COLLABORA_USER}
+Password: ${COLLABORA_PASSWORD}
+6. Checking network connectivity between Collabora Online and the WOPI host
+```bash
+$ curl -i https://office.emanciper.org/hosting/wopiAccessCheck --header "Content-Type: application/json" -d '{"callbackUrl":"https://wopi-host.local:8443"}'
+```
+Does not work...
+
 Apache error logs for both servers are empty
 Apache access logs for both servers show only http 200 responses codes
 Nextcloud /var/www/html/data/nextcloud.log is empty even with loglevel 0
-docker logs nextcloud_id gives only http 200 responses codes
-docker logs collabora_id gives these 3 different error lines:
+```bash
+docker logs intranet-nextcloud-1
 ```
+ gives only http 200 responses codes
+```bash
+docker logs intranet-code-1
+```
+gives these 3 different error lines:
+
+```text
 [ coolwsd ] WRN  Waking up dead poll thread [main], started: false, finished: false| net/Socket.hpp:824
 [ forkit ] WRN  The systemplate directory [/opt/cool/systemplate] is read-only, and at least [/opt/cool/systemplate//etc/hosts] is out-of-date. Will have to clone dynamic elements of systemplate to the jails. To restore optimal performance, make sure the files in [/opt/cool/systemplate/etc] are up-to-date.| common/JailUtil.cpp:587
 sh: 1: /usr/bin/coolmount: Operation not permitted
 ```
-
-I tried the same config on another server on another network and I obtain the same results.
-
-Any help would be greatly appreciated!
