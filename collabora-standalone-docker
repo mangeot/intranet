@@ -1,2 +1,3 @@
 docker run -t -d -p 127.0.0.1:9980:9980 -e 'aliasgroup1=https://intranet.emanciper.org:443'    --restart always     --cap-add MKNOD     collabora/code
 docker run -t -d -p 9980:9980 -e "extra_params=--o:ssl.enable=false --o:ssl.termination=true" collabora/code
+docker run -t -d -p 9980:9980 -e "extra_params=--o:ssl.enable=true" -e "username=admin" -e "password=secret" -e "server_name=office.mydomain.org" -e "aliasgroup1=https://.*:443" collabora/code
