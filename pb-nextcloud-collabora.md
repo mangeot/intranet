@@ -49,6 +49,9 @@ docker run -d -p 8080:80 -v nextcloud:/var/www/html nextcloud
 docker run -t -d -p 9980:9980 -e "extra_params=--o:ssl.enable=true" -e "username=admin" -e "password=secret" -e "server_name=office.mydomain.org" -e "aliasgroup1=https://.*:443" collabora/code
 ```
 
+Copier/coller cette commande ici : <https://www.composerize.com/>
+et lancer docker compose avec donne une erreur !!!
+
 2. and 3. give the same results:
 
 > Collabora Online server is reachable.
