@@ -91,7 +91,7 @@ sudo fail2ban-client set sshd unbanip <ip-address>
 - installer dig avec sudo apt install dnsutils
 - installer Unbound sudo apt install unbound :
 <https://www.howtoforge.com/how-to-set-up-local-dns-with-unbound-on-debian/>
-voir unbound.conf
+voir /etc/unbound/unbound.conf
 - installer systemd-resolved:
 <https://serverfault.com/questions/1145358/how-can-i-configure-my-dns-settings-on-debian-12>
 sudo apt install systemd-resolved

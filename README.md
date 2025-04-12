@@ -77,7 +77,10 @@ https://${COLLABORA_USERNAME}:${COLLABORA_PASSWORD}@192.168.1.25:9980
 <https://techoverflow.net/2021/08/19/how-to-run-collabora-office-for-nextcloud-using-docker-compose/>
 <https://sdk.collaboraonline.com/docs/installation/Proxy_settings.html#reverse-proxy-with-apache-2-webserver>
 
-Voir plus tard pour sécurité : allow list for WOPI requests...
+Faire tourner le serveur en ligne de commande
+car cela ne marche pas avec docker compose !!!
+
+Voir pb-nextcloud-collabora.md
 
 ## Mattermost
 
@@ -107,15 +110,33 @@ Voir plus tard pour sécurité : allow list for WOPI requests...
 ```
 
 ## bbb
+Attention la v3.0 ne marche pas sous NAT.
+Prendre la v2.7.3
+
 ```bash
-$ git clone https://github.com/bigbluebutton/docker.$ git bbb-docker
+$ git clone https://github.com/bigbluebutton/docker.git bbb-docker
 $ cd bbb-docker
-$ git checkout main 
+$ git checkout main ou v2.7.3
 $ ./scripts/setup
 $ vi .env
 $ ./scripts/generate-compose
 $ docker compose up -d --no-build
 ```
+
+### config NAT
+- ajouter une règle NAT : UDP ports in the range 16384 - 32768 
+- test hôte : 
+```bash
+$ sudo apt install netcat
+$ netcat -u -l -p 17000
+```
+- test client : 
+```bash
+$ sudo apt install netcat
+$ netcat -u IP_BBB_SERVER 17000
+test
+```
+- debug webrtc, taper dans la barre d'adresse de Firefox : about:webrtc
 
 ### Compte admin
 If you use greenlight, you can create an admin account with:
@@ -144,5 +165,5 @@ Lancer create-docker-compose-service.sh
 ## Sauvegarde automatique
 
 ## TODO
-- régler le pb de collabora sur le même serveur
+- régler le pb de collabora sur le même serveur => ça fonctionne avec un script à part
 - on ne peut pas se connecter directement à bbb
