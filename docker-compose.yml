@@ -68,24 +68,24 @@ services:
     image: redis:alpine
     restart: always
 
-  code:
-    image: collabora/code
-    restart: always
-    environment:
-      - extra_params=--o:ssl.enable=true
-      - aliasgroup1=https://.*:443  
-      - password=${COLLABORA_PASSWORD}
-      - username=${COLLABORA_USERNAME}
-#      - aliasgroup1=https://${NEXTCLOUD_SERVER_NAME}:443
-#      - aliasgroup1=https://intranet\\.mydomain\\.org:443
-#      - aliasgroup2=https://nextcloud.myseconddomain.com:443
-      - server_name=${COLLABORA_SERVER_NAME}
-      - dictionaries=fr_FR,en_GB,en_US,es_ES,de_DE,it
-# -e "extra_params=--o:ssl.enable=true" -e "username=collabora" -e "password=2025Nextcl0ud!" -e "server_name=office.emanciper.org" -e "aliasgroup1=https://.*:443" collabora/code
-#    volumes:
-#      - ./collabora/etc/coolwsd:/etc/coolwsd
-    ports:
-      - 9980:9980
+#  code:
+#    image: collabora/code
+#    restart: always
+#    environment:
+#      - extra_params=--o:ssl.enable=true
+#      - aliasgroup1=https://.*:443  
+#      - password=${COLLABORA_PASSWORD}
+#      - username=${COLLABORA_USERNAME}
+##      - aliasgroup1=https://${NEXTCLOUD_SERVER_NAME}:443
+##      - aliasgroup1=https://intranet\\.mydomain\\.org:443
+##      - aliasgroup2=https://nextcloud.myseconddomain.com:443
+#      - server_name=${COLLABORA_SERVER_NAME}
+#      - dictionaries=fr_FR,en_GB,en_US,es_ES,de_DE,it
+## -e "extra_params=--o:ssl.enable=true" -e "username=collabora" -e "password=2025Nextcl0ud!" -e "server_name=office.emanciper.org" -e "aliasgroup1=https://.*:443" collabora/code
+##    volumes:
+##      - ./collabora/etc/coolwsd:/etc/coolwsd
+#    ports:
+#      - 9980:9980
  
   nextcloud:
     image: nextcloud

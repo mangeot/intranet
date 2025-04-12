@@ -1,5 +1,6 @@
 .DS_Store
 .env
+mycollabora-standalone-docker
 logs
 ldap/ldap-config
 ldap/ldap-database
