@@ -102,6 +102,7 @@ services:
       - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
       - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
       - NEXTCLOUD_TRUSTED_DOMAINS=${NEXTCLOUD_SERVER_NAME}
+      - REDIS_HOST=redis
     depends_on:
       - redis
       - postgres
@@ -148,3 +149,21 @@ services:
       - 8443:8443/tcp
     depends_on:
       - postgres
+
+  nc-talk:
+    image: ghcr.io/nextcloud-releases/aio-talk:latest
+    init: true
+    ports:
+      - 3478:3478/tcp
+      - 3478:3478/udp
+      - 8181:8081/tcp
+    environment:
+      - NC_DOMAIN=${NEXTCLOUD_SERVER_NAME}
+      - TALK_HOST=${TALK_SERVER_NAME}
+      - TURN_SECRET=${TURN_SECRET} #this must be a long secretpasswordkey
+      - SIGNALING_SECRET=${SIGNALING_SECRET} #this must be a long secretpasswordkey
+      - TZ=Europe/Berlin
+      - TALK_PORT=3478
+      - INTERNAL_SECRET=${INTERNAL_SECRET} #this must be a long secretpasswordkey
+    restart: unless-stopped
+
