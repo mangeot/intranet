@@ -1,0 +1,7 @@
+DB_HOST=mariadb
+DB_USER=wpuser
+DB_PASSWORD=wp-password
+DB_NAME=wpdb
+ROOT_PASSWORD=RoutePassword% 
+SITE_PORT=8123
+SITE_URL=https://site.emanciper.org
