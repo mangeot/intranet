@@ -4,6 +4,7 @@ mycollabora-standalone-docker
 logs
 ldap/ldap-config
 ldap/ldap-database
+mail2most
 mattermost/client
 mattermost/config
 mattermost/data
@@ -14,3 +15,4 @@ postgres/backups
 bootstrap.ldif
 collabora
 sauvegarde.logs
+collabora.log

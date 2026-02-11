@@ -1,0 +1,28 @@
+services:
+
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8123:80
+    environment:
+      WORDPRESS_DB_HOST: ${DB_HOST}
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${DB_NAME}
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_HOME', "${SITE_URL}");
+        define('WP_SITEURL', "${SITE_URL}");
+    volumes:
+      - ./wordpress:/var/www/html
+
+  mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD} 
+    volumes:
+      - ./mariadb:/var/lib/mysql

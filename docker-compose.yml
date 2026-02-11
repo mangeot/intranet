@@ -167,3 +167,9 @@ services:
       - INTERNAL_SECRET=${INTERNAL_SECRET} #this must be a long secretpasswordkey
     restart: unless-stopped
 
+  mail2most:
+    image: virtomize/mail2most:latest
+    volumes:
+      - ./mail2most/conf/emanciper.conf:/mail2most/conf/mail2most.conf
+    restart: always
+
