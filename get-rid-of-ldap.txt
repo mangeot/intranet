@@ -1,0 +1,47 @@
+https://help.nextcloud.com/t/import-ldap-users-get-rid-of-ldap/56629/11
+
+
+    Turn on maintenance mode.
+    (CLI) php occ maintenance:mode --on
+
+    Check for incoming trouble.
+
+        Users that will see a change of login id after the process.
+        (SQL) SELECT * FROM oc_ldap_user_mapping WHERE owncloud_name != directory_uuid
+        The owncloud_name is the uid that will be used after, the directory_uuid is the one that was used with the LDAP.
+
+        Name clashes between normal and LDAP users.
+        (SQL) SELECT uid FROM oc_users, oc_ldap_user_mapping WHERE owncloud_name=uid
+        If it is non empty, you are probably going to be in trouble. I don’t know. It should probably not happen anyway.
+
+        Name clashes between normal and LDAP groups
+        (SQL) SELECT gid FROM oc_groups, oc_ldap_group_mapping WHERE gid = owncloud_name
+        If it is non empty, you are probably going to be in trouble. Again, it should probably not happen.
+
+    Import users and groups
+
+        Create one normal user per LDAP user.
+        (SQL) INSERT INTO oc_users (uid, uid_lower) SELECT owncloud_name, owncloud_name FROM oc_ldap_user_mapping
+
+        Create on normal group per LDAP group.
+        (SQL) INSERT INTO oc_groups (gid) SELECT owncloud_name FROM oc_ldap_group_mapping
+
+        I don’t know how to import group membership easily. So you will have the groups, but they will be empty and you will have to add people to the group again. This comes from the way in which LDAP stores the groups.
+
+    Disable LDAP.
+    (CLI) php occ app:disable user_ldap
+
+    Cleanup.
+
+        Remove LDAP user bindings.
+        (SQL) DELETE FROM oc_ldap_user_mapping
+
+        Remove LDAP group bindings
+        (SQL) DELETE FROM oc_ldap_group_mapping
+
+        Remove LDAP group memberships
+        (SQL) DELETE FROM oc_ldap_group_members
+
+    Turn off maintenance mode
+    (CLI) php occ maintenance:mode --off
+
