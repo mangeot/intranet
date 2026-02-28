@@ -1,0 +1,13 @@
+name: testcode
+services:
+    code:
+        tty: true
+        ports:
+            - 9980:9980
+        environment:
+            - extra_params=--o:ssl.enable=true
+            - username=collabora
+            - password=2025Nextcl0ud!
+            - server_name=office.emanciper.org
+            - aliasgroup1=https://.*:443
+        image: collabora/code

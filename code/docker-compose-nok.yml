@@ -1,0 +1,13 @@
+services:
+  code:
+    image: collabora/code
+    restart: always
+    environment:
+      - extra_params=--o:ssl.enable=true
+      - username=collabora
+      - password=2025Nextcl0ud!
+      - server_name=office.emanciper.org
+      - aliasgroup1=https://.*:443  
+    ports:
+      - 9980:9980
+# docker run -t -d -p 9980:9980 -e "extra_params=--o:ssl.enable=true" -e "username=collabora" -e "password=2025Nextcl0ud!" -e "server_name=office.emanciper.org" -e "aliasgroup1=https://.*:443" collabora/code

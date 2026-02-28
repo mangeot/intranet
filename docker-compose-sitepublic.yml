@@ -31,3 +31,14 @@ services:
       MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD} 
     volumes:
       - ./mariadb:/var/lib/mysql
+
+  wpcli:
+    image: wordpress:cli
+    environment:
+      WORDPRESS_DB_HOST: ${DB_HOST}
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${DB_NAME}
+    volumes_from:
+      - wordpress:rw
+    command: sleep infinity
