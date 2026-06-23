@@ -11,3 +11,4 @@ find ./home/mangeot/intranet/postgres/backups/* -name 'dump_????-??-01_*.sql.bz2
 
 # rsync all files to jibiki.fr
 /usr/bin/rsync -avPz --delete -e 'ssh -p 4807 -i /home/mangeot/.ssh/id_rsa' /home/mangeot/intranet/* mangeot@jibiki.fr:/data/Emanciper/intranet/. >> /home/mangeot/intranet/sauvegarde.logs 2>&1
+/usr/bin/rsync -avPz --delete -e 'ssh -p 4807 -i /home/mangeot/.ssh/id_rsa' /data/nextcloud/* mangeot@jibiki.fr:/data/Emanciper/nextcloud/. >> /home/mangeot/intranet/sauvegarde.logs 2>&1
