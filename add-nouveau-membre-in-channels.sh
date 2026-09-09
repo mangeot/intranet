@@ -23,7 +23,31 @@ do
       ;;
     *)
       echo "✅ on ajoute $1 à $line"
-#      docker exec -ti intranet-mattermost-1 mmctl --local users add emanciper:$line $1 
+      docker exec -ti intranet-mattermost-1 mmctl --local users add emanciper:$line $1 
+      ;;
+   esac
+done
+
+cat channels-emanciper-sympathisants | while read line 
+do
+   # do something with $line here
+   line=$(echo -n "$line" | tr -d '[\n\r]')
+   case "$line" in
+    *"(archived)"*)
+      echo "❌ (archived)"
+      ;;
+    "town-square")
+      echo "❌ ts found"
+      ;;
+    "moyens-informatiques")
+      echo "❌ mi found"
+      ;;
+    "")
+      echo "❌ vide"
+      ;;
+    *)
+      echo "✅ on ajoute $1 à $line"
+      docker exec -ti intranet-mattermost-1 mmctl --local users add emanciper-sympathisants:$line $1 
       ;;
    esac
 done
