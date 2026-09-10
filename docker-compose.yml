@@ -61,7 +61,7 @@ services:
      # - POSTGRES_DB=nextcloud
       - POSTGRES_USER=${POSTGRES_USER_NAME}
       - POSTGRES_PASSWORD=${POSTGRES_USER_PASSWORD}
-      - POSTGRES_MULTIPLE_DATABASES=nextcloud,mattermost
+      - POSTGRES_MULTIPLE_DATABASES=nextcloud,mattermost,moodle
       - TZ='Europe/Paris'
 
   redis:
@@ -186,3 +186,27 @@ services:
       - ./mail2most/conf/emanciper.conf:/mail2most/conf/mail2most.conf
     restart: always
 
+  moodle:
+    image: moodlehq/moodle-php-apache:8.3
+    depends_on:
+      - postgres
+    volumes:
+      - "${MOODLE_DOCKER_WWWROOT}:/var/www/html"
+      - "${MOODLE_DATA}:/var/www/moodledata"
+      - "${MOODLE_DOCKER_WWWROOT}/assets/web/apache2_faildumps.conf:/etc/apache2/conf-enabled/moodle-faildump.conf"
+    environment:
+      MOODLE_DOCKER_RUNNING: 1
+      MOODLE_DOCKER_DBTYPE: pgsql
+      MOODLE_DOCKER_DBHOST: postgres
+      MOODLE_DOCKER_DBNAME: moodle
+      MOODLE_DOCKER_DBUSER: ${POSTGRES_USER_NAME}
+      MOODLE_DOCKER_DBPASS: ${POSTGRES_USER_PASSWORD}
+      MOODLE_DOCKER_BROWSER: firefox
+      MOODLE_DOCKER_WEB_HOST: localhost
+      MOODLE_DOCKER_WEB_PORT: "${MOODLE_DOCKER_WEB_PORT}"
+      MOODLE_DOCKER_TIMEOUT_FACTOR: 1
+      MOODLE_DOCKER_PHPUNIT_EXTRAS: "true"
+      REDIS_HOST: redis
+    ports:
+      - "${MOODLE_DOCKER_WEB_PORT}:80"
+    restart: unless-stopped
