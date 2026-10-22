@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 # database rm old backups
-find ./home/mangeot/intranet/postgres/backups/* -name 'dump_????-??-01_*.sql.bz2' -prune -o -mtime +7 -exec rm {} \;
+find /home/mangeot/intranet/postgres/backups/* -name 'dump_????-??-01_*.sql.bz2' -prune -o -mtime +7 -exec rm {} \;
 
 # database backup
 /usr/bin/docker exec -t intranet-postgres-1 pg_dumpall -c -U adminuser | /usr/bin/bzip2 --best > /home/mangeot/intranet/postgres/backups/dump_`date +%Y-%m-%d"_"%H_%M_%S`.sql.bz2
