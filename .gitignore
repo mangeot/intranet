@@ -11,6 +11,7 @@ mattermost/data
 mattermost/plugins
 nextcloud/html
 postgres/data
+postgres/data_v17
 postgres/backups
 bootstrap.ldif
 collabora
